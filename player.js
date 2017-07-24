@@ -4,17 +4,21 @@ const myBucket = 'harwoodjp-private-music';
 
 const bucketUrlRoot = `https://s3.amazonaws.com/${myBucket}`;
 
-function listBucketObjects() {
-	s3.listObjects({
-		Bucket: myBucket	
-	}, (err, data) => {
-		if(err)throw err;
-		console.log(data)
-		return data;
+
+const listBucketObjects = s3.listObjects({
+	Bucket: myBucket
+}).promise();
+
+function getUrlArray(data) {
+	let urlArray = [];
+	data.Contents.forEach(datum => {
+		urlArray.push(datum.Key)
 	});
+	return urlArray;
 }
 
 
 module.exports = {
-	listBucketObjects
+	listBucketObjects,
+	getUrlArray
 };

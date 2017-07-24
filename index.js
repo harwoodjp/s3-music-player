@@ -1,8 +1,15 @@
 const http = require('http')  
 const port = 3000
 
+const player = require("./player")
+
 const requestHandler = (request, response) => {  
   console.log(request.url)
+  	let keys = [];
+	player.listBucketObjects.then( data => {
+		console.log(player.getUrlArray(data))
+	});
+
   response.end('Hello!')
 }
 
@@ -17,5 +24,3 @@ server.listen(port, (err) => {
 })
 
 /* test */
-const player = require("./player")
-player.listBucketObjects();
