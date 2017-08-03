@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "amplitudejs": "^3.1.0",
     "aws-sdk": "^2.88.0",
     "http": "0.0.0"
   }

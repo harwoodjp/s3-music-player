@@ -4,13 +4,25 @@ const port = 3000
 const player = require("./player")
 
 const requestHandler = (request, response) => {  
-  console.log(request.url)
-  	let keys = [];
-	player.listBucketObjects.then( data => {
-		console.log(player.getUrlArray(data))
-	});
+  console.log(request.url);
+  player.listBucketObjects.then( data => {
+  	const urls = player.getUrlArray(data)
+    console.log(urls)
 
-  response.end('Hello!')
+    let renderString = ``;
+    urls.forEach(url => {
+      renderString += `
+        <audio controls>
+          <source src="${url}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <br>
+      `
+    })
+
+    response.end(renderString)    
+  });
+
 }
 
 const server = http.createServer(requestHandler)
