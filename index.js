@@ -11,15 +11,19 @@ const requestHandler = (request, response) => {
 
     let renderString = ``;
     urls.forEach(url => {
-      renderString += `
-        <audio controls>
-          <source src="${url}" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>
-        <br>
-      `
+      if (url.includes("mp3")) {
+        renderString += `
+          <audio controls>
+            <source src="${url}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+          ${url.split("/")[4]} - 
+          ${url.split("/")[5]} -
+          ${url.split("/")[6]}
+          <br>
+        `
+      }
     })
-
     response.end(renderString)    
   });
 
