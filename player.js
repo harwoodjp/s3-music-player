@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-const myBucket = 'harwoodjp-private-music';
+const myBucket = 'marcondesian';
 
-AWS.config.loadFromPath('./config.json');
+// AWS.config.loadFromPath('./config.json');
 
 const listBucketObjects = s3.listObjects({
 	Bucket: myBucket

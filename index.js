@@ -3,30 +3,37 @@ const port = 3000
 
 const player = require("./player")
 
+const MusicFile = require('./MusicFile')
+
 const requestHandler = (request, response) => {  
   console.log(request.url);
   player.listBucketObjects.then( data => {
   	const urls = player.getUrlArray(data)
     console.log(urls)
 
-    let renderString = ``;
-    urls.forEach(url => {
-      if (url.includes("mp3")) {
-        renderString += `
-          <audio controls>
-            <source src="${url}" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
-          ${url.split("/")[4]} - 
-          ${url.split("/")[5]} -
-          ${url.split("/")[6]}
-          <br>
-        `
+    let renderString = `
+      <doctype! html>
+      <html>
+      <body>
+    `
+
+    const music = urls.map(url => new MusicFile({
+      url,
+      artist: url.split('/')[4],
+      album: url.split('/')[5],
+      title: url.split('/')[6]
+    }))
+    
+    music.forEach(song => {
+      if (song.url.includes('mp3')) {
+        renderString += song.audioControlElement
       }
     })
-    response.end(renderString)    
-  });
 
+    renderString += `</body></html>`
+    response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
+    response.end(renderString)
+  });
 }
 
 const server = http.createServer(requestHandler)
