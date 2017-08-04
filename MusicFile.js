@@ -1,16 +1,19 @@
 module.exports = class MusicFile {
-    constructor({
+    constructor(
         url,
-        artist,
-        album,
-        title,
-        track
-    }) {
+        config) {
         this.url = url
-        this.artist = artist
-        this.album = album
-        this.trackTitle = title
-        this.track = track
+
+        if (!config) {
+            this.artist = this.url.split('/')[4]
+            this.album = this.url.split('/')[5]
+            this.trackTitle = this.url.split('/')[6]
+        } else {
+            this.artist = config.artist
+            this.album = config.album
+            this.trackTitle = config.title
+            this.track = config.track
+        }
     }
 
     get audioControlElement() {
