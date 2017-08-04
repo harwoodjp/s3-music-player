@@ -1,5 +1,6 @@
 const http = require('http')  
 const port = 3000
+require('dotenv').config()
 
 const player = require("./player")
 

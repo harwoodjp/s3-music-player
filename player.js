@@ -1,8 +1,6 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-const myBucket = 'marcondesian';
-
-// AWS.config.loadFromPath('./config.json');
+const myBucket = process.env.bucket;
 
 const listBucketObjects = s3.listObjects({
 	Bucket: myBucket
