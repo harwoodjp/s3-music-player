@@ -1,7 +1,8 @@
 module.exports = class MusicFile {
     constructor(
         url,
-        config) {
+        config
+    ) {
         this.url = url
 
         if (!config) {
@@ -11,21 +12,32 @@ module.exports = class MusicFile {
         } else {
             this.artist = config.artist
             this.album = config.album
-            this.trackTitle = config.title
-            this.track = config.track
+            this.trackTitle = config.trackTitle
         }
     }
 
     get audioControlElement() {
         return `
+            <!--
             <audio controls id="${this.url}">
                 <source src="${this.url}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
+                -->
             ${this.artist} -
             ${this.album} - 
             ${this.trackTitle}
         <br>
+        `
+    }
+
+    get tableRow() {
+        return `
+            <tr>
+                <td>${this.artist}</td>
+                <td>${this.album}</td>
+                <td>${this.trackTitle}</td>
+            </tr>
         `
     }
 }
