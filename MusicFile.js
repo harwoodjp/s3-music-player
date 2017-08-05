@@ -18,7 +18,7 @@ module.exports = class MusicFile {
 
     get audioControlElement() {
         return `
-            <audio controls>
+            <audio controls id="${this.url}">
                 <source src="${this.url}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>

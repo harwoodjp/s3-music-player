@@ -7,7 +7,7 @@ const player = require("./player")
 const MusicFile = require('./MusicFile')
 
 const requestHandler = (request, response) => {  
-    console.log(request.url);
+    console.log(request.url)
     player.listBucketObjects.then(data => {
         const urls = player.getUrlArray(data)
         console.log(urls)
@@ -25,6 +25,12 @@ const requestHandler = (request, response) => {
                 renderString += song.audioControlElement
             }
         })
+      
+        renderString += `
+            <script>
+                const MusicFiles = ${JSON.stringify(music)}
+            </script>
+        `
 
         renderString += `</body></html>`
         response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
@@ -41,5 +47,3 @@ server.listen(port, (err) => {
 
     console.log(`Server is listening on ${port}`)
 })
-
-/* test */
