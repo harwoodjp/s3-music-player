@@ -19,7 +19,7 @@ module.exports = class MusicFile {
     get audioControlElement() {
         return `
             <!--
-            <audio controls id="${this.url}">
+            <audio controls id="${this.url}" played>
                 <source src="${this.url}" type="audio/mpeg">
                 Your browser does not support the audio element.
             </audio>
@@ -33,8 +33,8 @@ module.exports = class MusicFile {
 
     get tableRow() {
         return `<tr id=${JSON.stringify(this.url)} class="track" onclick="setCurrentTrack(\`${this.url}\`)">
-                <td>${this.artist}</td>
-                <td>${this.album}</td>
-                <td>${this.trackTitle}</td></tr>`
+                <td class="tracklist__artist">${this.artist}</td>
+                <td class="tracklist__album">${this.album}</td>
+                <td class="tracklist__song">${this.trackTitle}</td></tr>`
     }
 }
