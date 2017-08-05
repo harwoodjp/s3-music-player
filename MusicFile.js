@@ -10,10 +10,10 @@ module.exports = class MusicFile {
             this.album = this.url.split('/')[5]
             this.trackTitle = this.url.split('/')[6]
         } else {
-            this.artist = config.artist
-            this.album = config.album
-            this.trackTitle = config.trackTitle
+            Object.assign(this, config);
         }
+
+        this.marqueeText = `${this.artist} - ${this.album} - ${this.trackTitle}`
     }
 
     get audioControlElement() {
@@ -32,12 +32,9 @@ module.exports = class MusicFile {
     }
 
     get tableRow() {
-        return `
-            <tr>
+        return `<tr id=${JSON.stringify(this.url)} class="track" onclick="setCurrentTrack(\`${this.url}\`)">
                 <td>${this.artist}</td>
                 <td>${this.album}</td>
-                <td>${this.trackTitle}</td>
-            </tr>
-        `
+                <td>${this.trackTitle}</td></tr>`
     }
 }

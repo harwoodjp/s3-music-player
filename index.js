@@ -23,31 +23,18 @@ const requestHandler = (request, response) => {
             const urls = player.getUrlArray(data)
             console.log(urls)
     
-            let renderString = `
-                <doctype! html>
-                <html>
-                <body>
-            ` + playerTemplate + `
-                <table class="library">
-                    <tr>
-                        ${ths.map(h => `<th>${h}</th>`).join('')}
-                    </tr>
-            `
-    
-            const music = urls.map(url => new MusicFile(url))
-            
-            music.forEach(song => {
-                if (song.url.endsWith('mp3')) {
-                    renderString += song.tableRow
+            let renderString = `<doctype! html><html><body>${playerTemplate}<table id="library"><thead><tr>${ths.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`
+
+            let musicMap = {};
+            urls.forEach(url => {
+                if (url.endsWith('mp3')) {
+                    const musicFile = new MusicFile(url);
+                    musicMap[url] = musicFile;
+                    renderString += musicFile.tableRow;
                 }
             })
           
-            renderString += `
-                </table>
-                <script>
-                    const MusicFiles = ${JSON.stringify(music)}
-                </script>
-            `
+            renderString += `</tbody></table><script>window.MusicFiles = ${JSON.stringify(musicMap)}</script>`
     
             renderString += `</body></html>`
             response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
