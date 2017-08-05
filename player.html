@@ -18,7 +18,25 @@
         align-items: center;
         z-index: 5;
 
-        padding: 10px;
+        padding: .75em;
+    }
+
+    .search {
+        align-items: center;
+        border-radius: 2px;
+        border: 1px solid gainsboro;        
+        display: flex;        
+        height: 55px;        
+        margin-left: 1em;
+        padding: .75em;
+        width: 300px;        
+    }
+    .search__text {
+        margin: 1em;
+    }
+    .search__input {
+        padding: 1em;
+        width: 80%;
     }
 
     button#play {
@@ -87,6 +105,17 @@
         font-family: sans-serif;
     }
 
+    .tracklist {
+        height: 90%;
+        overflow: scroll;
+    }
+
+    .tracklist__artist, .tracklist__album, .tracklist__song {
+        max-width: 1;
+        white-space: nowrap;
+        overflow: scroll;
+    }
+
     body {
         font-family: sans-serif;
     }
@@ -114,7 +143,8 @@
     }
 
     table#library tr.track.active {
-        background-color: aquamarine;
+        background-color: black;
+        color: white;
     }
 
     tr.track {
@@ -130,12 +160,32 @@
         <button type="button" id="pause" onclick="togglePlaying()"></button>
 
         <div id="track-info" onmouseover="hovering = true" onmouseleave="hovering = false">
-            <span id="track-info-text">A Very Long Bit Of Text That wIll Surely Need To Be Marqueed A Very Long Bit Of Text That wIll Surely Need To Be Marqueed</span>
+            <span id="track-info-text">Select a track to play.</span>
         </div>
+    </div>
+    <div class="search">
+        <span class="search__text">
+            Search
+        </span>
+        <input class="search__input" oninput="filterTracklist(this.value)">
     </div>
 </div>
 
 <script>
+
+    function filterTracklist(string) {
+        const allTracks = document.querySelectorAll("tbody tr");
+        allTracks.forEach(track => {
+            if (track.getAttribute("id").toLowerCase().includes(string.toLowerCase())) {
+                track.style.display = "table-row";                
+            } else {
+                track.style.display = "none";                
+            }
+        })
+
+    }
+
+
     const trackText = document.getElementById('track-info-text');
     const trackInfo = document.getElementById('track-info');
     const audioElement = document.getElementById('player-audio');

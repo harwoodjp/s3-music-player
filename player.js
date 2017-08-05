@@ -1,13 +1,14 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-const myBucket = process.env.bucket;
+
+const bucket = process.env.BUCKET;
 
 const listBucketObjects = s3.listObjects({
-	Bucket: myBucket
+	Bucket: bucket
 }).promise();
 
 function getUrlArray(data) {
-	const bucketUrlRoot = `https://s3.amazonaws.com/${myBucket}`;	
+	const bucketUrlRoot = `https://s3.amazonaws.com/${bucket}`;	
 	let urlArray = [];
 	data.Contents.forEach(datum => {
 		urlArray.push(`${bucketUrlRoot}/${datum.Key}`)
