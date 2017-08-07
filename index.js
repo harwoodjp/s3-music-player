@@ -64,12 +64,17 @@ const requestHandler = (request, response) => {
                             track = trackDetails[2].innerHTML;
                         document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
                         document.querySelector(".player__symbol").innerHTML = "pause";
+                        window.audio.src = clickedRow.dataset.url;
+                        window.audio.play();
+                        console.dir(window.audio)
                     },
                     togglePausePlay: () => {
-                        const pauseOrPlay = document.querySelector(".player__symbol").innerHTML;
-                        pauseOrPlay === "play_arrow" 
-                            ? document.querySelector(".player__symbol").innerHTML = "pause"
-                            : document.querySelector(".player__symbol").innerHTML = "play_arrow"
+                        const pauseOrPlay = document.querySelector(".player__symbol");
+                        pauseOrPlay.innerHTML === "play_arrow" 
+                            ? (pauseOrPlay.innerHTML = "pause",
+                                window.audio.play())
+                            : (pauseOrPlay.innerHTML = "play_arrow",
+                                window.audio.pause())
                     }
                 }
             }

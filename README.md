@@ -8,5 +8,7 @@
 ## Improvements (to do)
 * Allow users to pass in their own AWS keys, instead of reading from `~/.aws/credentials`
 * Volume control
+    * `window.audio.volume`
 * Next, previous, track length and progress
+    * `window.audio.duration`
 * Improve search efficiency  
