@@ -12,12 +12,16 @@ const config = require("./config"),
     MusicFile = require('./classes/MusicFile');
 
 // reading html from fs, converting to template
-let layout = _.template(readFileSync("./ui/layout.html")),
+let layout, player, library, style;
+function loadLayout() {
+    layout = _.template(readFileSync("./ui/layout.html")),
     player = _.template(readFileSync("./ui/player.html")),
     library = _.template(readFileSync("./ui/library.html")),
     style = _.template(sass.renderSync({ 
         data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
     }).css.toString());
+}
+loadLayout();
 
 
 
@@ -25,13 +29,7 @@ const requestHandler = (request, response) => {
 
     if (process.env.DEBUG) { 
         console.log(request.url);    
-        // allows templates/SCSS to update on refresh            
-        layout = _.template(readFileSync("./ui/layout.html")),
-        player = _.template(readFileSync("./ui/player.html")),
-        library = _.template(readFileSync("./ui/library.html")),        
-        style = _.template(sass.renderSync({ 
-            data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
-        }).css.toString());
+        loadLayout();
     }
     
     config.listBucketObjects.then(data => {
