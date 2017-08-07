@@ -66,7 +66,6 @@ const requestHandler = (request, response) => {
                         document.querySelector(".player__symbol").innerHTML = "pause";
                         window.audio.src = clickedRow.dataset.url;
                         window.audio.play();
-                        console.dir(window.audio)
                     },
                     togglePausePlay: () => {
                         const pauseOrPlay = document.querySelector(".player__symbol");

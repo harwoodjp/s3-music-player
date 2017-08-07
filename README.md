@@ -5,10 +5,11 @@
 * Create a file in the project root called `.env` and specify your bucket, e.g. `BUCKET=MyMusicBucket`
 * Run `node index.js` and direct browser to `localhost:3000`
 
-## Improvements (to do)
+## Improvements (to-do)
 * Allow users to pass in their own AWS keys, instead of reading from `~/.aws/credentials`
 * Volume control
     * `window.audio.volume`
 * Next, previous, track length and progress
+    * `window.currentTime`
     * `window.audio.duration`
 * Improve search efficiency  
