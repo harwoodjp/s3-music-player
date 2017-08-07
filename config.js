@@ -11,7 +11,9 @@ function getUrlArray(data) {
 	const bucketUrlRoot = `https://s3.amazonaws.com/${bucket}`;	
 	let urlArray = [];
 	data.Contents.forEach(datum => {
-		urlArray.push(`${bucketUrlRoot}/${datum.Key}`)
+		if (datum.Key.includes("mp3")) {
+			urlArray.push(`${bucketUrlRoot}/${datum.Key}`)			
+		}
 	});
 	return urlArray;
 }

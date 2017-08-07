@@ -1,70 +1,69 @@
-const { resolve } = require('path')
-const { readFile } = require('fs')
-const http = require('http')  
-const port = 3000
-require('dotenv').config()
+const { resolve } = require('path');
+const { readFile, readFileSync } = require('fs');
+const http = require('http');
+const port = 3000;
+require('dotenv').config();
 
-const player = require("./player")
+const _ = require('lodash'),
+    sass = require('node-sass');
 
-const MusicFile = require('./MusicFile')
 
-const ths = [
-    'Artist',
-    'Album',
-    'Track'
-]
+const config = require("./config");
+
+const MusicFile = require('./classes/MusicFile');
+
+const ths = ['Artist', 'Album', 'Track'];
+
+
+// reading html from fs, converting to template
+let styleSrc = _.template(readFileSync("./ui/style.scss"));
+let layout = _.template(readFileSync("./ui/layout.html")),
+    player = _.template(readFileSync("./ui/player.html")),
+    library = _.template(readFileSync("./ui/library.html")),
+    style = _.template(sass.renderSync({ data: styleSrc(), outputStyle: 'compressed'}).css.toString());
+
+
 
 const requestHandler = (request, response) => {  
-    console.log(request.url)
-    player.listBucketObjects.then(data => {
-        readFile(resolve(__dirname, 'player.html'), { encoding: 'utf-8' }, (err, playerTemplate) => {
-            if (err) response.end(err.message);
 
-            const urls = player.getUrlArray(data)
-            console.log(urls)
+    if (process.env.DEBUG) { 
+        console.log(request.url);    
+        // allows templates/SCSS to update on refresh            
+        layout = _.template(readFileSync("./ui/layout.html")),
+        player = _.template(readFileSync("./ui/player.html")),
+        library = _.template(readFileSync("./ui/library.html")),        
+        styleSrc = _.template(readFileSync("./ui/style.scss"));    
+        style = _.template(sass.renderSync({ data: styleSrc(), outputStyle: 'compressed'}).css.toString());
+    }
     
-            let renderString = `
-                <doctype! html>
-                <html>
-                <body>
-                    ${playerTemplate}
-                    <div class="tracklist">
-                        <table id="library">
-                            <thead>
-                                <tr>
-                                    ${ths.map(h => `<th>${h}</th>`).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>`
-
-            let musicMap = {};
-            urls.forEach(url => {
-                if (url.endsWith('mp3')) {
-                    const musicFile = new MusicFile(url);
-                    musicMap[url] = musicFile;
-                    renderString += musicFile.tableRow;
-                }
-            })
-          
-            renderString += `
-                        </tbody>
-                    </table>
-                </div>
-                <script>window.MusicFiles = ${JSON.stringify(musicMap)}</script>`
-    
-            renderString += `</body></html>`
-            response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
-            response.end(renderString)
+    config.listBucketObjects.then(data => {
+        const urls = config.getUrlArray(data);
+        response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });     
+        
+        let musicMap = {};
+        urls.forEach(url => {
+            const musicFile = new MusicFile(url);
+            musicMap[url] = musicFile;
         })
-    })
+        console.log(musicMap)
+
+
+        response.end(layout({ 
+            player: player,
+            library: library,
+            style: style,
+            libraryData: function() {
+                return { data: musicMap }
+            }
+        }));
+    });
 }
 
-const server = http.createServer(requestHandler)
+const server = http.createServer(requestHandler);
 
 server.listen(port, (err) => {  
     if (err) {
-        return console.log('Error: ', err)
+        return console.log('Error: ', err);
     }
-
-    console.log(`Server is listening on ${port}`)
+    console.log(`Server is listening on ${port}`);
 })
