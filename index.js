@@ -8,19 +8,16 @@ const _ = require('lodash'),
     sass = require('node-sass');
 
 
-const config = require("./config");
-
-const MusicFile = require('./classes/MusicFile');
-
-const ths = ['Artist', 'Album', 'Track'];
-
+const config = require("./config"),
+    MusicFile = require('./classes/MusicFile');
 
 // reading html from fs, converting to template
-let styleSrc = _.template(readFileSync("./ui/style.scss"));
 let layout = _.template(readFileSync("./ui/layout.html")),
     player = _.template(readFileSync("./ui/player.html")),
     library = _.template(readFileSync("./ui/library.html")),
-    style = _.template(sass.renderSync({ data: styleSrc(), outputStyle: 'compressed'}).css.toString());
+    style = _.template(sass.renderSync({ 
+        data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
+    }).css.toString());
 
 
 
@@ -32,8 +29,9 @@ const requestHandler = (request, response) => {
         layout = _.template(readFileSync("./ui/layout.html")),
         player = _.template(readFileSync("./ui/player.html")),
         library = _.template(readFileSync("./ui/library.html")),        
-        styleSrc = _.template(readFileSync("./ui/style.scss"));    
-        style = _.template(sass.renderSync({ data: styleSrc(), outputStyle: 'compressed'}).css.toString());
+        style = _.template(sass.renderSync({ 
+            data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
+        }).css.toString());
     }
     
     config.listBucketObjects.then(data => {
@@ -60,10 +58,18 @@ const requestHandler = (request, response) => {
                             ? document.querySelector(".playing").classList.remove("playing")
                             : null;
                         clickedRow.classList.add("playing");
-                        const artist = clickedRow.querySelectorAll("td")[0].innerHTML,
-                            album = clickedRow.querySelectorAll("td")[1].innerHTML,
-                            track = clickedRow.querySelectorAll("td")[2].innerHTML;
+                        const trackDetails = clickedRow.querySelectorAll("td"),
+                            artist = trackDetails[0].innerHTML,
+                            album = trackDetails[1].innerHTML,
+                            track = trackDetails[2].innerHTML;
                         document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
+                        document.querySelector(".player__symbol").innerHTML = "pause";
+                    },
+                    togglePausePlay: () => {
+                        const pauseOrPlay = document.querySelector(".player__symbol").innerHTML;
+                        pauseOrPlay === "play_arrow" 
+                            ? document.querySelector(".player__symbol").innerHTML = "pause"
+                            : document.querySelector(".player__symbol").innerHTML = "play_arrow"
                     }
                 }
             }

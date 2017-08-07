@@ -46,4 +46,10 @@ body {
 		box-shadow: 1px 1px 3px $everyOtherRowBg;
 		height: 100%;
 	}
+	&__symbol {
+		cursor: pointer;
+	}
+	&__text {
+		margin-left: .5em;
+	}
 }
