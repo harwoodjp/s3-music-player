@@ -51,6 +51,15 @@ const requestHandler = (request, response) => {
             },
             helperFunctions: function() {
                 return {
+                    filterLibrary: searchKey => {
+                        const allTracks = document.querySelectorAll("tbody tr");
+                        allTracks.forEach(track => {
+                            console.log(track)
+                            track.dataset.url.toLowerCase().includes(searchKey.toLowerCase())
+                                ? track.style.display = "table-row"
+                                : track.style.display = "none"
+                        })
+                    },
                     setNowPlaying: clickedRow => {
                         document.querySelector(".playing") 
                             ? document.querySelector(".playing").classList.remove("playing")

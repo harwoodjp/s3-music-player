@@ -45,7 +45,31 @@ body {
 		align-items: center;
 		box-shadow: 1px 1px 3px $everyOtherRowBg;
 		height: 100%;
+		justify-content: space-between;
 		margin-left: .5em;
+		margin-right: .5em;
+	}
+	&__controls {
+		align-items: center;
+	}
+	&__search {
+		align-items: center;
+		margin-right: 2em;
+		input {
+			margin-left: .25em;
+			outline: none;
+			padding: .5em;
+			border: none;
+			border-bottom: 1px solid $primaryText;
+			width: 15em;
+			&::placeholder {
+				color: $primaryText;
+			}
+		}
+		&__icon {
+			margin-top: 3px;
+			transform: scale(.8);
+		}
 	}
 	&__symbol {
 		cursor: pointer;
