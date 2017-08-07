@@ -47,9 +47,9 @@ const requestHandler = (request, response) => {
         })
 
         response.end(layout({ 
-            player: player,
-            library: library,
-            style: style,
+            player,
+            library,
+            style,
             libraryData: function() {
                 return { data: musicMap }
             },
