@@ -1,70 +1,98 @@
-const { resolve } = require('path')
-const { readFile } = require('fs')
-const http = require('http')  
-const port = 3000
-require('dotenv').config()
+const { resolve } = require('path');
+const { readFile, readFileSync } = require('fs');
+const http = require('http');
+const port = 3000;
+require('dotenv').config();
 
-const player = require("./player")
+const _ = require('lodash'),
+    sass = require('node-sass');
 
-const MusicFile = require('./MusicFile')
 
-const ths = [
-    'Artist',
-    'Album',
-    'Track'
-]
+const config = require("./config"),
+    MusicFile = require('./classes/MusicFile');
+
+// reading html from fs, converting to template
+let layout, player, library, style;
+function loadLayout() {
+    layout = _.template(readFileSync("./ui/layout.html")),
+    player = _.template(readFileSync("./ui/player.html")),
+    library = _.template(readFileSync("./ui/library.html")),
+    style = _.template(sass.renderSync({ 
+        data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
+    }).css.toString());
+}
+loadLayout();
+
+
 
 const requestHandler = (request, response) => {  
-    console.log(request.url)
-    player.listBucketObjects.then(data => {
-        readFile(resolve(__dirname, 'player.html'), { encoding: 'utf-8' }, (err, playerTemplate) => {
-            if (err) response.end(err.message);
 
-            const urls = player.getUrlArray(data)
-            console.log(urls)
+    if (process.env.DEBUG) { 
+        console.log(request.url);    
+        loadLayout();
+    }
     
-            let renderString = `
-                <doctype! html>
-                <html>
-                <body>
-                    ${playerTemplate}
-                    <div class="tracklist">
-                        <table id="library">
-                            <thead>
-                                <tr>
-                                    ${ths.map(h => `<th>${h}</th>`).join('')}
-                                </tr>
-                            </thead>
-                            <tbody>`
-
-            let musicMap = {};
-            urls.forEach(url => {
-                if (url.endsWith('mp3')) {
-                    const musicFile = new MusicFile(url);
-                    musicMap[url] = musicFile;
-                    renderString += musicFile.tableRow;
-                }
-            })
-          
-            renderString += `
-                        </tbody>
-                    </table>
-                </div>
-                <script>window.MusicFiles = ${JSON.stringify(musicMap)}</script>`
-    
-            renderString += `</body></html>`
-            response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
-            response.end(renderString)
+    config.listBucketObjects.then(data => {
+        const urls = config.getUrlArray(data);
+        response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });     
+        
+        let musicMap = {};
+        urls.forEach(url => {
+            const musicFile = new MusicFile(url);
+            musicMap[url] = musicFile;
         })
-    })
+
+        response.end(layout({ 
+            player,
+            library,
+            style,
+            libraryData: function() {
+                return { data: musicMap }
+            },
+            helperFunctions: function() {
+                return {
+                    filterLibrary: searchKey => {
+                        const allTracks = document.querySelectorAll("tbody tr");
+                        allTracks.forEach(track => {
+                            console.log(track)
+                            track.dataset.url.toLowerCase().includes(searchKey.toLowerCase())
+                                ? track.style.display = "table-row"
+                                : track.style.display = "none"
+                        })
+                    },
+                    setNowPlaying: clickedRow => {
+                        document.querySelector(".playing") 
+                            ? document.querySelector(".playing").classList.remove("playing")
+                            : null;
+                        clickedRow.classList.add("playing");
+                        const trackDetails = clickedRow.querySelectorAll("td"),
+                            artist = trackDetails[0].innerHTML,
+                            album = trackDetails[1].innerHTML,
+                            track = trackDetails[2].innerHTML;
+                        document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
+                        document.querySelector(".player__symbol").innerHTML = "pause";
+                        window.audio.src = clickedRow.dataset.url;
+                        window.audio.play();
+                    },
+                    togglePausePlay: () => {
+                        const pauseOrPlay = document.querySelector(".player__symbol");
+                        pauseOrPlay.innerHTML === "play_arrow" 
+                            ? (pauseOrPlay.innerHTML = "pause",
+                                window.audio.play())
+                            : (pauseOrPlay.innerHTML = "play_arrow",
+                                window.audio.pause())
+                    }
+                }
+            }
+        }));
+    });
 }
 
-const server = http.createServer(requestHandler)
+const server = http.createServer(requestHandler);
 
 server.listen(port, (err) => {  
     if (err) {
-        return console.log('Error: ', err)
+        return console.log('Error: ', err);
     }
-
-    console.log(`Server is listening on ${port}`)
+    console.log(`Server is listening on ${port}`);
 })

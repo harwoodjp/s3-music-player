@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style> <%= style() %> </style>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
+</head>
+<body>
+	<div class="player"> <%= player() %> </div>
+	<div class="library"> 
+		<%= library({ 
+			libraryData: libraryData(),
+			helperFunctions: helperFunctions()
+		}) %> 
+	</div>
+	<script>
+		window.helperFunctions = <%= helperFunctions %>
+		window.audio = new Audio();
+	</script>
+</body>
+</html>

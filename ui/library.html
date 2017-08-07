@@ -1,0 +1,18 @@
+<table>
+	<thead>
+		<tr>
+			<td>Artist</td>
+			<td>Album</td>
+			<td>Song</td>
+		</tr>
+	</thead>
+	<tbody>
+		<% _.each(libraryData.data, function(datum) { %>
+			<tr data-url="<%= datum.url %>" onclick="window.helperFunctions().setNowPlaying(this)">
+				<td><%= datum.artist %></td> 
+				<td><%= datum.album %></td> 
+				<td><%= datum.trackTitle %></td>
+			</tr>
+		<% }) %>
+	</tbody>
+</table>
