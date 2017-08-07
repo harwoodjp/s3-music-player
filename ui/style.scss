@@ -23,11 +23,16 @@ body {
 	table {
 		width: 100%;
 		tbody {
+			.playing {
+				background-color: $primaryText !important;
+				color: white;
+			}
 			tr:nth-child(odd) {
 		    	background-color: $everyOtherRowBg;
 		    }
 		    tr:hover {
 		    	background-color: $lightBlue;
+		    	cursor: pointer;
 		    }
 		} 
 	}
@@ -38,7 +43,7 @@ body {
 	width: 100%;
 	&__container {
 		align-items: center;
-		box-shadow: 2px 2px 5px lightgray;
+		box-shadow: 1px 1px 3px $everyOtherRowBg;
 		height: 100%;
 	}
 }

@@ -45,8 +45,6 @@ const requestHandler = (request, response) => {
             const musicFile = new MusicFile(url);
             musicMap[url] = musicFile;
         })
-        console.log(musicMap)
-
 
         response.end(layout({ 
             player: player,
@@ -54,6 +52,20 @@ const requestHandler = (request, response) => {
             style: style,
             libraryData: function() {
                 return { data: musicMap }
+            },
+            helperFunctions: function() {
+                return {
+                    setNowPlaying: clickedRow => {
+                        document.querySelector(".playing") 
+                            ? document.querySelector(".playing").classList.remove("playing")
+                            : null;
+                        clickedRow.classList.add("playing");
+                        const artist = clickedRow.querySelectorAll("td")[0].innerHTML,
+                            album = clickedRow.querySelectorAll("td")[1].innerHTML,
+                            track = clickedRow.querySelectorAll("td")[2].innerHTML;
+                        document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
+                    }
+                }
             }
         }));
     });
