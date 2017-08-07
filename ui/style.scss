@@ -1,5 +1,5 @@
 $everyOtherRowBg: #fafafa;
-$lightBlue: #DEF9F3;
+$hoverRow: #E6E6E6;
 $primaryText: #2c2d2d;
 
 body {
@@ -31,7 +31,7 @@ body {
 		    	background-color: $everyOtherRowBg;
 		    }
 		    tr:hover {
-		    	background-color: $lightBlue;
+		    	background-color: $hoverRow;
 		    	cursor: pointer;
 		    }
 		} 
@@ -45,6 +45,7 @@ body {
 		align-items: center;
 		box-shadow: 1px 1px 3px $everyOtherRowBg;
 		height: 100%;
+		margin-left: .5em;
 	}
 	&__symbol {
 		cursor: pointer;
