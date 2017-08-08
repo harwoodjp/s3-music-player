@@ -65,7 +65,9 @@ const requestHandler = (request, response) => {
                     window.audio.ontimeupdate = event => {
                         const { duration, currentTime } = window.audio
                         const progress = (currentTime / duration) * 100
-                        window.progressBar.style.width = `${progress.toFixed(4)}%`
+                        Object.assign(window.progressBar.style, {
+                            width: `${progress.toFixed(2)}%`
+                        })
                     }
                     window.progressContainer.onmousedown = event => {
                         const { clientX: x } = event
@@ -78,14 +80,12 @@ const requestHandler = (request, response) => {
                     window.progressContainer = document.querySelector('.progress__container')
                     window.progressIndicator = document.querySelector('.progress__cursor')
                     window.progressBar = document.querySelector('.progress__bar')
+                    window.progressTime = document.querySelector('.progress__time')
 
                     window.progressContainer.onmousemove = event => {
                         if (!window.audio.paused) {
                             window.audio.ontimeupdate = null;
-                            const {
-                                clientX: x,
-                                clientY: y
-                            } = event
+                            const { clientX: x } = event
                             const { width: totalWidth } = window.progressContainer.getBoundingClientRect()
     
                             Object.assign(window.progressIndicator.style, {
@@ -100,7 +100,25 @@ const requestHandler = (request, response) => {
                     window.progressContainer.onmouseleave = () => {
                         registerTrackTime()
                     }
+                    window.audio.onplaying = registerTrackTime
+                    window.audio.onplay = () => {
+                        window.progressContainer.onmousemove({ clientX: 0 })
+                        window.timeIntervalId = window.setInterval(() => {
+                            window.progressTime.innerHTML = `${
+                                window.helperFunctions().currentTimeDisplay
+                                } / ${
+                                window.helperFunctions().durationDisplay
+                                }`
+                        }, 1000)
+                        window.audio.onended = window.audio.onpause = () => window.clearTimeout(window.timeIntervalId)
+                    }
                 }
+                const padSeconds = seconds => seconds.length === 1 ? `0${seconds}` : seconds
+                const formatSeconds = seconds => `${
+                    Math.floor(seconds / 60)
+                    }:${
+                    padSeconds(Math.floor(seconds - (Math.floor(seconds / 60) * 60)).toString())
+                }`
                 return {
                     setup,
                     registerTrackTime,
@@ -133,6 +151,12 @@ const requestHandler = (request, response) => {
                                 window.audio.play())
                             : (pauseOrPlay.innerHTML = "play_arrow",
                                 window.audio.pause())
+                    },
+                    get currentTimeDisplay() {
+                        return formatSeconds(window.audio.currentTime)
+                    },
+                    get durationDisplay() {
+                        return formatSeconds(window.audio.duration)
                     }
                 }
             }
