@@ -72,7 +72,6 @@ const requestHandler = (request, response) => {
                     window.progressContainer.onmousedown = event => {
                         const { clientX: x } = event
                         const { width: totalWidth } = window.progressContainer.getBoundingClientRect()
-    
                         window.audio.currentTime = window.audio.duration * parseFloat((x / totalWidth).toFixed(4))
                     }
                 }
@@ -140,6 +139,7 @@ const requestHandler = (request, response) => {
                             album = trackDetails[1].innerHTML,
                             track = trackDetails[2].innerHTML;
                         document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
+                        document.querySelector("title").innerHTML = `${artist} - ${track}`;
                         document.querySelector(".player__symbol").innerHTML = "pause";
                         window.audio.src = clickedRow.dataset.url;
                         window.audio.play();

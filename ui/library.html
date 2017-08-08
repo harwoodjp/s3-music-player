@@ -7,7 +7,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% _.each(libraryData.data, function(datum) { %>
+		<% _.each(libraryData.data, datum => { %>
 			<tr data-url="<%= datum.url %>" onclick="window.helperFunctions().setNowPlaying(this)">
 				<td><%= datum.artist %></td> 
 				<td><%= datum.album %></td> 
