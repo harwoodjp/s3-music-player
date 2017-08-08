@@ -1,6 +1,7 @@
 $everyOtherRowBg: #fafafa;
 $hoverRow: #E6E6E6;
 $primaryText: #2c2d2d;
+$progressBg: #eaeaea;
 
 body {
 	color: $primaryText;
@@ -13,13 +14,27 @@ body {
 .flex-row {
 	display: flex;
 	flex-direction: row;
+	.centery {
+		align-items: center;
+	}
+	.startx {
+		justify-content: flex-start;
+	}
+    .endx {
+        justify-content: flex-end;
+    }
+    .centerx {
+        justify-content: center;
+    }
 }
 
 
 .library {
 	height: 95vh;
 	overflow: scroll;
-	padding: .5em;	
+	padding: .5em;
+	padding-top: 0;
+	margin-top: .5em;
 	table {
 		width: 100%;
 		tbody {
@@ -46,8 +61,8 @@ body {
 		box-shadow: 1px 1px 3px $everyOtherRowBg;
 		height: 100%;
 		justify-content: space-between;
-		margin-left: .5em;
-		margin-right: .5em;
+		padding-left: .5em;
+		padding-right: .5em;
 	}
 	&__controls {
 		align-items: center;
@@ -76,5 +91,36 @@ body {
 	}
 	&__text {
 		margin-left: .5em;
+	}
+}
+
+.progress {
+    box-sizing: border-box;
+	cursor: pointer;
+	margin-bottom: 10px;
+    &__container {
+		width: 100%;
+        background-color: transparent;
+		height: 5px;
+		transform: translateY(-5px);
+        &:hover { 
+			background-color: $progressBg;
+		}
+	}
+	&__bar {
+		display: flex;
+		align-items: center;
+		width: 0%;
+		height: 100%;
+		background-color: $primaryText;
+	}
+	&__cursor {
+		position: absolute;
+		width: 2px;
+		height: 10px;
+		background-color: transparent;
+        &:hover {
+            background-color: $primaryText;
+        }
 	}
 }

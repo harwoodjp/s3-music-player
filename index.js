@@ -49,18 +49,50 @@ const requestHandler = (request, response) => {
             libraryData: function() {
                 return { data: musicMap }
             },
-            helperFunctions: function() {
+            helperFunctions: function () {
+                function registerTrackTime() {
+                    window.audio.ontimeupdate = event => {
+                        const { duration, currentTime } = window.audio
+                        const progress = (currentTime / duration) * 100
+                        window.progressBar.style.width = `${progress.toFixed(4)}%`
+                    }
+                    window.progressContainer.onmousedown = event => {
+                        const { clientX: x } = event
+                        const { width: totalWidth } = window.progressContainer.getBoundingClientRect()
+    
+                        window.audio.currentTime = window.audio.duration * parseFloat((x / totalWidth).toFixed(4))
+                    }
+                }
+                function setup() {
+                    window.progressContainer = document.querySelector('.progress__container')
+                    window.progressIndicator = document.querySelector('.progress__cursor')
+                    window.progressBar = document.querySelector('.progress__bar')
+
+                    window.progressContainer.onmousemove = event => {
+                        if (!window.audio.paused) {
+                            window.audio.ontimeupdate = null;
+                            const {
+                                clientX: x,
+                                clientY: y
+                            } = event
+                            const { width: totalWidth } = window.progressContainer.getBoundingClientRect()
+    
+                            Object.assign(window.progressIndicator.style, {
+                                transform: `translateX(${x}px)`,
+                                display: 'initial'
+                            })
+                            Object.assign(window.progressBar.style, {
+                                width: `${((x) / totalWidth).toFixed(8) * 100}%`
+                            })
+                        }
+                    }
+                    window.progressContainer.onmouseleave = _ => {
+                        registerTrackTime()
+                    }
+                }
                 return {
-                    registerTrackTime: () => {
-                        // grab .progress
-                        // grab audio track length
-                        // width progress element (currentTime / trackLength) * 100 + '%'
-                        // on track start -> window.setInterval(updateProgressWidth);
-                        // register trackTimeOnClick()
-                    },
-                    trackTimeOnClick: event => {
-                        // to do
-                    },
+                    setup,
+                    registerTrackTime,
                     filterLibrary: searchKey => {
                         const allTracks = document.querySelectorAll("tbody tr");
                         allTracks.forEach(track => {
