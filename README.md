@@ -9,3 +9,7 @@
 * Allow users to pass in their own AWS keys, instead of reading from `~/.aws/credentials`
 * Volume control
     * `window.audio.volume`
+* Next, previous buttons
+* Play next track when current is finished
+* Playlists 
+* Optimize performance with pre-loading

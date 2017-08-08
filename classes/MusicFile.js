@@ -13,7 +13,7 @@ module.exports = class MusicFile {
             Object.assign(this, config);
         }
 
-        this.marqueeText = `${this.artist} - ${this.album} - ${this.trackTitle}`
+        this.fullText = `${this.artist} - ${this.album} - ${this.trackTitle}`
     }
 
     get audioControlElement() {
