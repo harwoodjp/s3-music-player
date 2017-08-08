@@ -34,18 +34,18 @@ const requestHandler = (request, response) => {
     
     config.listBucketObjects.then(data => {
         const urls = config.getUrlArray(data);
-        response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });     
         
         let musicMap = {};
         urls.forEach(url => {
             const musicFile = new MusicFile(url);
             musicMap[url] = musicFile;
         })
-
+        response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' });     
         response.end(layout({ 
             player,
             library,
             style,
+            bucketName: process.env.BUCKET,
             libraryData: function() {
                 return { data: musicMap }
             },
@@ -139,18 +139,20 @@ const requestHandler = (request, response) => {
                             album = trackDetails[1].innerHTML,
                             track = trackDetails[2].innerHTML;
                         document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
-                        document.querySelector("title").innerHTML = `${artist} - ${track}`;
+                        document.querySelector("title").innerHTML = `${track}`;
                         document.querySelector(".player__symbol").innerHTML = "pause";
                         window.audio.src = clickedRow.dataset.url;
                         window.audio.play();
                     },
                     togglePausePlay: () => {
                         const pauseOrPlay = document.querySelector(".player__symbol");
-                        pauseOrPlay.innerHTML === "play_arrow" 
-                            ? (pauseOrPlay.innerHTML = "pause",
-                                window.audio.play())
-                            : (pauseOrPlay.innerHTML = "play_arrow",
-                                window.audio.pause())
+                        if (pauseOrPlay.innerHTML !== "equalizer") {
+                            pauseOrPlay.innerHTML === "play_arrow" 
+                                ? (pauseOrPlay.innerHTML = "pause",
+                                    window.audio.play())
+                                : (pauseOrPlay.innerHTML = "play_arrow",
+                                    window.audio.pause())
+                        }
                     },
                     get currentTimeDisplay() {
                         return formatSeconds(window.audio.currentTime)

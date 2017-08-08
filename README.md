@@ -1,6 +1,6 @@
 ## Set up
 * Install and configure the AWS CLI
-* Have an S3 bucket organized like this -- `s3://[bucket-name]/[artists]/[albums]/[song]`
+* Have an S3 bucket organized like this -- `s3://[bucket-name]/[artists]/[albums]/[songs]`
 * Clone project and `npm install`
 * Create a file in the project root called `.env` and specify your bucket, e.g. `BUCKET=MyMusicBucket`
 * Run `node index.js` and direct browser to `localhost:3000`

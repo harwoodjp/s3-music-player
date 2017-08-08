@@ -79,6 +79,7 @@ body {
 			width: 15em;
 			&::placeholder {
 				color: $primaryText;
+				opacity: .75;
 			}
 		}
 		&__icon {
