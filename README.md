@@ -9,7 +9,4 @@
 * Allow users to pass in their own AWS keys, instead of reading from `~/.aws/credentials`
 * Volume control
     * `window.audio.volume`
-* Next, previous, track length and progress
-    * `window.audio.currentTime`
-    * `window.audio.duration`
-* Improve search efficiency  
+* Next, previous
