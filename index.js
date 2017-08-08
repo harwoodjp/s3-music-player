@@ -51,6 +51,16 @@ const requestHandler = (request, response) => {
             },
             helperFunctions: function() {
                 return {
+                    registerTrackTime: () => {
+                        // grab .progress
+                        // grab audio track length
+                        // width progress element (currentTime / trackLength) * 100 + '%'
+                        // on track start -> window.setInterval(updateProgressWidth);
+                        // register trackTimeOnClick()
+                    },
+                    trackTimeOnClick: event => {
+                        // to do
+                    },
                     filterLibrary: searchKey => {
                         const allTracks = document.querySelectorAll("tbody tr");
                         allTracks.forEach(track => {
