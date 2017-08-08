@@ -50,6 +50,17 @@ const requestHandler = (request, response) => {
                 return { data: musicMap }
             },
             helperFunctions: function () {
+                function debounce (fn, delay) {
+                    var timeoutId
+                    return function debounced() {
+                        const that = this,
+                            args = arguments
+                        if (timeoutId) {
+                            window.clearTimeout(timeoutId)
+                        }
+                        timeoutId = window.setTimeout(fn.apply(that, args), delay)
+                    }
+                }
                 function registerTrackTime() {
                     window.audio.ontimeupdate = event => {
                         const { duration, currentTime } = window.audio
@@ -86,22 +97,21 @@ const requestHandler = (request, response) => {
                             })
                         }
                     }
-                    window.progressContainer.onmouseleave = _ => {
+                    window.progressContainer.onmouseleave = () => {
                         registerTrackTime()
                     }
                 }
                 return {
                     setup,
                     registerTrackTime,
-                    filterLibrary: searchKey => {
+                    filterLibrary: debounce(searchKey => {
                         const allTracks = document.querySelectorAll("tbody tr");
                         allTracks.forEach(track => {
-                            console.log(track)
                             track.dataset.url.toLowerCase().includes(searchKey.toLowerCase())
                                 ? track.style.display = "table-row"
                                 : track.style.display = "none"
                         })
-                    },
+                    }, 350),
                     setNowPlaying: clickedRow => {
                         document.querySelector(".playing") 
                             ? document.querySelector(".playing").classList.remove("playing")
