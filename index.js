@@ -112,12 +112,10 @@ const requestHandler = (request, response) => {
                         window.audio.onended = window.audio.onpause = () => window.clearTimeout(window.timeIntervalId)
                     }
                     window.audio.addEventListener("ended", () => {
-                        const nextVisibleTrack = document.querySelector(".playing").nextElementSibling;
-                        if (nextVisibleTrack.style.display !== "none") {
-                            window.helperFunctions().setNowPlaying(nextVisibleTrack);
-                            window.audio.src = nextVisibleTrack.dataset.url
-                            window.audio.play()
-                        }
+                        const nextTrack = document.querySelector(".playing").nextElementSibling;
+                        window.helperFunctions().setNowPlaying(nextTrack);
+                        window.audio.src = nextTrack.dataset.url
+                        window.audio.play()
                     })
                 }
                 const padSeconds = seconds => seconds.length === 1 ? `0${seconds}` : seconds
