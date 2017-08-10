@@ -1,14 +1,13 @@
-const { listBucketObjects, isDebug, getUrlArray } = require('../util')
+const { isDebug, getUrlArray, bucketName } = require('../util')
 const { loadLayout, ClientLibrary, EventLibrary } = require('../ui')
 const MusicFile = require('../classes/MusicFile')
-const { BUCKET: bucketName } = process.env
 
 let data = undefined;
 
 module.exports = async (request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
 
-    if (isDebug) console.log('rendering...')
+    if (isDebug) console.log('Rendering library')
     
     if (data === undefined || isDebug) {
         data = Object.assign({}, await loadLayout())
@@ -16,8 +15,7 @@ module.exports = async (request, response) => {
 
     const { layout, player, library, style } = data
 
-    const bucketObjects = await listBucketObjects
-    const urls = getUrlArray(bucketObjects)
+    const urls = await getUrlArray()
 
     let musicLibrary = {}
     urls.forEach(url => musicLibrary[url] = new MusicFile(url))

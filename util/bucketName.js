@@ -1,0 +1,1 @@
+exports.bucketName = process.env.BUCKET
