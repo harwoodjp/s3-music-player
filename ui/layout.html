@@ -11,13 +11,16 @@
 	<div class="library"> 
 		<%= library({ 
 			libraryData: libraryData(),
-			helperFunctions: helperFunctions()
+			helperFunctions: new ClientLibrary()
 		}) %> 
 	</div>
 	<script>
-		window.helperFunctions = <%= helperFunctions %>
-		window.audio = new Audio();
-		window.helperFunctions().setup();
+		window.audio = new Audio()
+
+		window.eventLibrary = <%= EventLibrary %>
+		window.eventLibrary = new window.eventLibrary()
+		window.clientLibrary = <%= ClientLibrary %>
+		window.clientLibrary = new window.clientLibrary().DOMSetup()
 	</script>
 </body>
-</html>
+</html>2
