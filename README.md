@@ -5,8 +5,16 @@
 * Create a file in the project root called `.env` and specify your bucket, e.g. `BUCKET=MyMusicBucket`
 * Run `node index.js` and direct browser to `localhost:3000`
 
+## `.env`
+The `.env` file current supports the following variables:
+* BUCKET: your bucket name
+* BUCKET_SUBFOLDER: `[experimental!]` the folder (may be the path) to the root directory of your music files
+* DEBUG: when set, various logs will surface
+* AWS_ACCESS_KEY_ID: Used to configure the AWS SDK
+* AWS_SECRET_ACCESS_KEY: Used to configure the AWS SDK
+* PORT: The port on which to serve, defaults to `3000`
+
 ## Improvements (to-do)
-* Allow users to pass in their own AWS keys, instead of reading from `~/.aws/credentials`
 * Basic password authentication on page load
 * Volume control
     * `window.audio.volume`
