@@ -22,5 +22,6 @@ The `.env` file current supports the following variables:
 * Play next track when current is finished
     * Implemented but logs `DOMException: The play() request was interrupted by a new load request.`
 * Playlists 
+* Allow music to be in a subfolder of the bucket
 * Optimize performance with pre-loading
 * Enrich UI with metadata -- album covers, artist photos, etc.
