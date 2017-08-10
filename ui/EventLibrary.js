@@ -20,8 +20,8 @@ module.exports = class {
             onended() {
                 window.clearTimeout(window.timeIntervalId)
 
-                const nextTrack = document.querySelector(".playing").nextElementSibling;
-                window.clientLibrary.setNowPlaying(nextTrack);
+                const nextTrack = document.querySelector(".playing").nextElementSibling
+                window.clientLibrary.setNowPlaying(nextTrack)
                 window.audio.src = nextTrack.dataset.url
                 window.audio.play()
             },
@@ -38,7 +38,7 @@ module.exports = class {
         this.progressContainer = {
             onmousemove(event) {
                 if (!window.audio.paused) {
-                    window.audio.ontimeupdate = null;
+                    window.audio.ontimeupdate = null
                     const { clientX: x } = event
                     const { width: totalWidth } = window.progressContainer.getBoundingClientRect()
 

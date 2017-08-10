@@ -1,14 +1,20 @@
+const { isDebug } = require('./isDebug')
+const { isLocal } = require('./isLocal')
+
 const AWS = require('aws-sdk')
 const { promisify } = require('util')
+const fs = require('fs')
+const { resolve } = require('path')
+
+const writeFile = promisify(fs.writeFile)
 
 const {
     BUCKET,
     BUCKET_SUBFOLDER,
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY
-} = process.env;
+} = process.env
 
-const { isDebug } = require('./isDebug')
 
 AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
 AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
@@ -34,6 +40,12 @@ async function getAll(Bucket = BUCKET, StartAfter = undefined, previous = []) {
         if (isDebug) console.log(`Object list truncated at key ${lastKey}, requesting next page`)
         
         return getAll(Bucket, lastKey, ret)
+    }
+
+    if (isDebug) {
+        const contentsPath = resolve(__dirname, '../local/contents.json')
+        console.log(`Writing bucket contents to file at ${contentsPath}`)
+        await writeFile(contentsPath, JSON.stringify(ret, undefined, 4))
     }
 
     return ret
@@ -65,17 +77,17 @@ async function getUrlArray(shouldRefresh = false) {
 
     if (isDebug) console.log(bucketObjects)
 
-    const bucketUrlRoot = `https://s3.amazonaws.com/${BUCKET}`;
+    const bucketUrlRoot = `https://s3.amazonaws.com/${BUCKET}`
 
     data.urlArray = bucketObjects.reduce((acc, curr) => curr.Key && curr.Key.endsWith('mp3') ?
         [...acc, `${bucketUrlRoot}/${curr.Key}`] :
         acc
     , [])
 
-    return data.urlArray;
+    return data.urlArray
 }
 
 module.exports = {
     listBucketObjects,
     getUrlArray
-};
+}

@@ -7,7 +7,7 @@ module.exports = async (request, response) => {
         switch (request.url) {
             case '/':
                 if (request.method === 'GET') return renderer(request, response)
-                break;
+                break
             case '/cache':
                 if (request.method === 'PUT') return refreshCachedObjects(request, response)
             default:

@@ -24,14 +24,3 @@ exports.loadLayout = async () => ({
 
 exports.ClientLibrary = require('./ClientLibrary')
 exports.EventLibrary = require('./EventLibrary')
-
-// let layout, player, library, style;
-// function loadLayout() {
-//     layout = _.template(readFileSync("./ui/layout.html")),
-//         player = _.template(readFileSync("./ui/player.html")),
-//         library = _.template(readFileSync("./ui/library.html")),
-//         style = _.template(sass.renderSync({
-//             data: _.template(readFileSync("./ui/style.scss"))(), outputStyle: 'compressed'
-//         }).css.toString());
-// }
-// loadLayout();

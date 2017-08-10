@@ -1,7 +1,7 @@
 module.exports = class {
     constructor() {
         this.filterLibrary = this.debounce(searchKey => {
-            const allTracks = document.querySelectorAll("tbody tr");
+            const allTracks = document.querySelectorAll("tbody tr")
             allTracks.forEach(track => {
                 track.dataset.url.toLowerCase().includes(searchKey.toLowerCase())
                     ? track.style.display = "table-row"
@@ -83,22 +83,22 @@ module.exports = class {
     setNowPlaying(clickedRow) {
         document.querySelector(".playing")
             ? document.querySelector(".playing").classList.remove("playing")
-            : null;
-        clickedRow.classList.add("playing");
+            : null
+        clickedRow.classList.add("playing")
         const trackDetails = clickedRow.querySelectorAll("td"),
             artist = trackDetails[0].innerHTML,
             album = trackDetails[1].innerHTML,
-            track = trackDetails[2].innerHTML;
-        document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`;
-        document.querySelector("title").innerHTML = `${track}`;
-        document.querySelector(".player__symbol").innerHTML = "pause";
-        window.audio.src = clickedRow.dataset.url;
-        window.audio.play();
+            track = trackDetails[2].innerHTML
+        document.querySelector(".player__text").innerHTML = `${artist} / ${album} / ${track}`
+        document.querySelector("title").innerHTML = `${track}`
+        document.querySelector(".player__symbol").innerHTML = "pause"
+        window.audio.src = clickedRow.dataset.url
+        window.audio.play()
     }
 
 
     togglePausePlay() {
-        const pauseOrPlay = document.querySelector(".player__symbol");
+        const pauseOrPlay = document.querySelector(".player__symbol")
         if (pauseOrPlay.innerHTML !== "equalizer") {
             pauseOrPlay.innerHTML === "play_arrow"
                 ? (pauseOrPlay.innerHTML = "pause",

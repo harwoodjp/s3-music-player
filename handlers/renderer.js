@@ -2,7 +2,7 @@ const { isDebug, getUrlArray, bucketName } = require('../util')
 const { loadLayout, ClientLibrary, EventLibrary } = require('../ui')
 const MusicFile = require('../classes/MusicFile')
 
-let data = undefined;
+let data = undefined
 
 module.exports = async (request, response) => {
     response.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
