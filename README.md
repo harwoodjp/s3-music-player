@@ -2,8 +2,8 @@
 * Install and configure the AWS CLI
 * Have an S3 bucket organized as follows -- `s3://[bucket-name]/[artists]/[albums]/[songs]`
 * Clone project and `npm install`
-* Create a file in the project root called `.env` and specify your bucket, e.g. `BUCKET=MyMusicBucket`
-* Run `node index.js` and direct browser to `localhost:3000`
+* Create a file in the project root called `.env` and specify your bucket, e.g. `BUCKET=MyMusicBucket` and AWS credentials (see below for details)
+* Run `npm start` and direct browser to `localhost:3000`
 
 ## `.env`
 The `.env` file current supports the following variables:
