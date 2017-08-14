@@ -1,5 +1,4 @@
-const { isDebug } = require('./isDebug')
-const { isLocal } = require('./isLocal')
+const { isDebug } = require('../util')
 
 const AWS = require('aws-sdk')
 const { promisify } = require('util')
@@ -12,12 +11,13 @@ const {
     BUCKET,
     BUCKET_SUBFOLDER,
     AWS_ACCESS_KEY_ID,
-    AWS_SECRET_ACCESS_KEY
+    AWS_SECRET_ACCESS_KEY,
+    AWS_REGION
 } = process.env
-
 
 AWS.config.credentials.accessKeyId = AWS_ACCESS_KEY_ID
 AWS.config.credentials.secretAccessKey = AWS_SECRET_ACCESS_KEY
+AWS.config.region = AWS_REGION
 
 const s3 = new AWS.S3()
 
@@ -87,7 +87,4 @@ async function getUrlArray(shouldRefresh = false) {
     return data.urlArray
 }
 
-module.exports = {
-    listBucketObjects,
-    getUrlArray
-}
+module.exports = getUrlArray

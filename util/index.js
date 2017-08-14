@@ -1,6 +1,7 @@
-module.exports = Object.assign(
-    require('./config-s3'),
-    require('./port'),
-    require('./isDebug'),
-    require('./bucketName')
-)
+module.exports = {
+    port: require('./port'),
+    isDebug: require('./isDebug'),
+    bucketName: require('./bucketName'),
+    provider: require('./provider'),
+    log: require('./log'),
+}

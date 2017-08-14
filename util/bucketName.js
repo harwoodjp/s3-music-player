@@ -1,1 +1,1 @@
-exports.bucketName = process.env.BUCKET
+module.exports = process.env.BUCKET

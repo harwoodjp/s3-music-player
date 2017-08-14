@@ -1,1 +1,1 @@
-exports.isDebug = process.env.DEBUG !== undefined
+module.exports = process.env.DEBUG !== undefined

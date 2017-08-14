@@ -1,4 +1,4 @@
-const { isDebug, getUrlArray, bucketName } = require('../util')
+const { isDebug, getUrlArray, bucketName } = require('../providers')
 const { loadLayout, ClientLibrary, EventLibrary } = require('../ui')
 const MusicFile = require('../classes/MusicFile')
 

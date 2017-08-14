@@ -1,0 +1,1 @@
+module.exports = process.env.PROVIDER || 's3'
