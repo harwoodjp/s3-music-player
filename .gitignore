@@ -4,3 +4,4 @@ config.json
 .env
 local
 local/**
+contents_debug.json
