@@ -1,5 +1,5 @@
 const { provider } = require('../util')
 
 module.exports = {
-    getUrlArray: require(`./${provider}`)
+    getUrlArray: require(`./${provider.toLowerCase()}`)
 } 
