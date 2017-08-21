@@ -4,4 +4,5 @@ module.exports = {
     bucketName: require('./bucketName'),
     provider: require('./provider'),
     log: require('./log'),
+    mime: require('./mime')
 }

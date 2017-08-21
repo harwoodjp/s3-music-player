@@ -2,7 +2,7 @@ const { promisify } = require('util')
 const fs = require('fs')
 const { resolve } = require('path')
 
-const { log, isDebug } = require('../util')
+const { log, isDebug, mime } = require('../util')
 
 const stat = promisify(fs.stat)
 const readFile = promisify(fs.readFile)
@@ -19,7 +19,7 @@ async function getUrlArray(shouldRefresh = false) {
         log(`${data.urlArray ? 'Refreshing' : 'Building'} local file url array.`)
         data.paths = await crawlDirectory()
         data.urlArray = data.paths.reduce((acc, path) =>
-            isPathValid(path) ? [...acc, `${baseUrl}/music/${path.split('/').slice(-3).join('/')}`] : [...acc],
+            mime.isValid(path) ? [...acc, `${baseUrl}/music/${path.split('/').slice(-3).join('/')}`] : [...acc],
             [])
 
         if (isDebug) {
@@ -55,18 +55,5 @@ async function crawlDirectory(path = localPath, paths = []) {
     }))
     return paths
 }
-
-function isPathValid(path) {
-    const is = path.endsWith('.mp3')
-        || path.endsWith('.m4a')
-        || path.endsWith('.flac')
-        || path.endsWith('.ogg')
-    
-    if (!is && !path.endsWith('.DS_Store')) log(`Invalid extension! ${path}`)
-
-    return is
-}
-
-getUrlArray.isPathValid = isPathValid;
 
 module.exports = getUrlArray

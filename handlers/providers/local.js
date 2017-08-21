@@ -2,14 +2,10 @@ const { promisify } = require('util')
 const fs = require('fs')
 const { resolve } = require('path')
 
-const { log, isDebug } = require('../../util')
+const { log, isDebug, mime } = require('../../util')
 const { isPathValid } = require('../../providers').getUrlArray
 const notFound = require('../notFound')
 
-const stat = promisify(fs.stat)
-const read = promisify(fs.read)
-const open = promisify(fs.open)
-const createReadStream = promisify(fs.createReadStream)
 const readFile = promisify(fs.readFile)
 
 const {
@@ -24,12 +20,11 @@ module.exports = async (request, response) => {
     const filePath = resolve(localPath, decodeURI(request.url.split('/').slice(-3).join('/')))
 
     try {
-        const stats = await stat(filePath)
-
         const file = await readFile(filePath)
 
         response.writeHead(200, {
-            'Content-Type': 'application/octet-stream'
+            'Content-Type': mime.get(filePath),
+            'Content-Length': file.byteLength
         })
 
         response.write(file)
