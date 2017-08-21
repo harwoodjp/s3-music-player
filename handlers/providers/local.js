@@ -10,6 +10,7 @@ const stat = promisify(fs.stat)
 const read = promisify(fs.read)
 const open = promisify(fs.open)
 const createReadStream = promisify(fs.createReadStream)
+const readFile = promisify(fs.readFile)
 
 const {
     LOCAL_PROVIDER_ABSOLUTE_PATH: localPath,
@@ -24,19 +25,16 @@ module.exports = async (request, response) => {
 
     try {
         const stats = await stat(filePath)
-        const readable = await createReadStream(filePath)
 
-        readable.on('data', chunk => {
-            log(`Read ${chunk.length} from ${filePath}`)
-            response.write(chunk)
+        const file = await readFile(filePath)
+
+        response.writeHead(200, {
+            'Content-Type': 'application/octet-stream'
         })
 
-        readable.on('end', () => {
-            reponse.writeHead(200, {
-                'Content-Type': 'audio/mpeg'
-            })
-            response.end()
-        })
+        response.write(file)
+        response.end()
+        return true
     } catch (e) {
         response.writeHead(500)
         response.end(`Error reading file ${filePath}: ${e.message}`)

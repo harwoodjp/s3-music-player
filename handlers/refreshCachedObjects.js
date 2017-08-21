@@ -1,4 +1,4 @@
-const { isDebug, getUrlArray } = require('../util')
+const { isDebug, getUrlArray } = require('../providers')
 
 module.exports = async (request, response) => {
     response.writeHead(200)
