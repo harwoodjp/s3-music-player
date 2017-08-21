@@ -5,3 +5,4 @@ config.json
 local
 local/**
 contents_debug.jsonpaths_debug.json
+contents_debug.json
