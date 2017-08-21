@@ -43,7 +43,7 @@ async function getAll(Bucket = BUCKET, StartAfter = undefined, previous = []) {
     }
 
     if (isDebug) {
-        const contentsPath = resolve(__dirname, '../local/contents.json')
+        const contentsPath = resolve(__dirname, '../contents_debug.json')
         console.log(`Writing bucket contents to file at ${contentsPath}`)
         await writeFile(contentsPath, JSON.stringify(ret, undefined, 4))
     }
