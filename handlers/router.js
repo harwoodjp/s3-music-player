@@ -1,9 +1,12 @@
 const renderer = require('./renderer')
 const refreshCachedObjects = require('./refreshCachedObjects')
 const notFound = require('./notFound')
+const provider = require('./providers')
 
 module.exports = async (request, response) => {
     try {
+        if (await provider(request, response)) return 1
+
         switch (request.url) {
             case '/':
                 if (request.method === 'GET') return renderer(request, response)

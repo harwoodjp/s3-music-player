@@ -1,1 +1,0 @@
-module.exports = process.env.LOCAL === 1

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore local --ignore contents_debug.json"
+    "start": "nodemon --ignore ./local --ignore contents_debug.json --ignore paths_debug.json --inspect"
   },
   "author": "",
   "license": "ISC",
