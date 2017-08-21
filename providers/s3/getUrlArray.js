@@ -1,4 +1,4 @@
-const { isDebug } = require('../util')
+const { isDebug } = require('../../util')
 
 const AWS = require('aws-sdk')
 const { promisify } = require('util')

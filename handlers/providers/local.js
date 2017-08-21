@@ -5,8 +5,10 @@ const { resolve } = require('path')
 const { log, isDebug, mime } = require('../../util')
 const { isPathValid } = require('../../providers').getUrlArray
 const notFound = require('../notFound')
+const badRequest = require('../badRequest')
 
 const readFile = promisify(fs.readFile)
+const writeFile = promisify(fs.writeFile)
 
 const {
     LOCAL_PROVIDER_ABSOLUTE_PATH: localPath,
@@ -14,7 +16,7 @@ const {
 } = process.env
 
 module.exports = async (request, response) => {
-    if (!request.url.startsWith('/music')) return 0
+    if (!request.url.startsWith('/music')) return false
     if (request.method !== 'GET') return notFound(request, response)
 
     const filePath = resolve(localPath, decodeURI(request.url.split('/').slice(-3).join('/')))

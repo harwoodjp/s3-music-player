@@ -5,7 +5,7 @@ const provider = require('./providers')
 
 module.exports = async (request, response) => {
     try {
-        if (await provider(request, response)) return 1
+        if (await provider(request, response)) return true
 
         switch (request.url) {
             case '/':
