@@ -6,9 +6,10 @@ module.exports = class MusicFile {
         this.url = url
 
         if (!config) {
-            this.artist = this.url.split('/')[4]
-            this.album = this.url.split('/')[5]
-            this.trackTitle = this.url.split('/')[6]
+            const split = this.url.split('/')
+            this.artist = split.splice(-3, -2)
+            this.album = split.slice(-2, -1)
+            this.trackTitle = split.slice(-1)
         } else {
             Object.assign(this, config)
         }
