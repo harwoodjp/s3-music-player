@@ -9,9 +9,11 @@ module.exports = app => {
 	/* set public/static path  */
 	app.use(express.static(path.join(__dirname).replace("server", "public")))
 
-	/* set view path and engine */
+	/* set view/template path */
 	app.set('views', `${path.join(__dirname).replace("server", "public")}/templates`)
-	app.set('view engine', 'hbs')	
 
+	/* set template engine */
+	require('lodash-express')(app, 'html'); 
+	app.set('view engine', 'html');
 
 }

@@ -1,2 +1,2 @@
 /* Player */
-require("./Player/app")
+require("./Player")
