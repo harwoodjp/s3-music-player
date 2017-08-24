@@ -1,7 +1,2 @@
-.DS_Store
 node_modules
-config.json
 .env
-local
-local/**
-contents_debug.json

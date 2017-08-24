@@ -1,18 +1,27 @@
 {
-  "name": "s3-music-player",
+  "name": "cloud-music-player",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/serve.js",
   "scripts": {
-    "start": "nodemon --ignore local --ignore contents_debug.json"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "amplitudejs": "^3.1.0",
     "aws-sdk": "^2.88.0",
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "dotenv": "^4.0.0",
-    "http": "0.0.0",
-    "node-sass": "^4.5.3"
+    "express": "^4.15.4",
+    "hbs": "^4.0.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "styled-components": "^2.1.2",
+    "webpack": "^3.5.5"
   }
 }
