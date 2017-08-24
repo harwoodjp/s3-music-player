@@ -1,4 +1,4 @@
-const { isDebug } = require('../../util')
+const { isDebug, log, mime } = require('../../util')
 
 const AWS = require('aws-sdk')
 const { promisify } = require('util')
@@ -37,14 +37,14 @@ async function getAll(Bucket = BUCKET, StartAfter = undefined, previous = []) {
     if (IsTruncated) {
         const lastKey = Contents[Contents.length - 1].Key
 
-        if (isDebug) console.log(`Object list truncated at key ${lastKey}, requesting next page`)
+        log(`Object list truncated at key ${lastKey}, requesting next page`)
         
         return getAll(Bucket, lastKey, ret)
     }
 
     if (isDebug) {
-        const contentsPath = resolve(__dirname, '../contents_debug.json')
-        console.log(`Writing bucket contents to file at ${contentsPath}`)
+        const contentsPath = resolve(__dirname, '../../contents_debug.json')
+        log(`Writing bucket contents to file at ${contentsPath}`)
         await writeFile(contentsPath, JSON.stringify(ret, undefined, 4))
     }
 
@@ -53,36 +53,42 @@ async function getAll(Bucket = BUCKET, StartAfter = undefined, previous = []) {
 
 async function listBucketObjects(shouldRefresh = false) {
     if (data.bucketObjects === null || shouldRefresh) {
-        if (isDebug) console.log(`Getting bucket objects (s3.listObjects({ Bucket: ${BUCKET} })`)
+        log(`Getting bucket objects (s3.listObjects({ Bucket: ${BUCKET} })`)
         
         data.bucketObjects = await getAll()
 
         return data.bucketObjects
     }
 
-    if (isDebug) console.log('Using cached bucket objects')
+    log('Using cached bucket objects')
     return data.bucketObjects
 }
 
 async function getUrlArray(shouldRefresh = false) {
     if (data.urlArray !== null && !shouldRefresh) {
-        if (isDebug) console.log('Using cached bucket object http access url array')
+        log('Using cached bucket object http access url array')
         
         return data.urlArray
     }
 
-    if (isDebug) console.log('Getting bucket object http access url array')
+    log('Getting bucket object http access url array')
     
     const bucketObjects = await listBucketObjects(shouldRefresh)
 
-    if (isDebug) console.log(bucketObjects)
+    log(bucketObjects)
 
     const bucketUrlRoot = `https://s3.amazonaws.com/${BUCKET}`
 
-    data.urlArray = bucketObjects.reduce((acc, curr) => curr.Key && curr.Key.endsWith('mp3') ?
+    data.urlArray = bucketObjects.reduce((acc, curr) => curr.Key && mime.isValid(curr.Key) ?
         [...acc, `${bucketUrlRoot}/${curr.Key}`] :
         acc
-    , [])
+        , [])
+    
+    if (isDebug) {
+        const pathsPath = resolve(__dirname, '../../paths_debug.json')
+        log(`Writing bucket paths to ${pathsPath}`)
+        await writeFile(pathsPath, JSON.stringify(data.urlArray, undefined, 4))
+    }
 
     return data.urlArray
 }
