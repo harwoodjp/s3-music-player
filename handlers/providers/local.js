@@ -12,7 +12,7 @@ const writeFile = promisify(fs.writeFile)
 
 const {
     LOCAL_PROVIDER_ABSOLUTE_PATH: localPath,
-    LOCAL_PROVIDER_BASE_URL: baseUrl
+    LOCAL_PROVIDER_BASE_URL: baseUrl = 'http://localhost:3000'
 } = process.env
 
 module.exports = async (request, response) => {
