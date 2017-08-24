@@ -6,11 +6,11 @@
 * Run `npm start` and direct browser to `localhost:3000`
 
 * Alternatively, you have serve music files from the local file system
-  * Currently `mp3`, `m4a`, `aif`, `aiff`, `aifc`, `ogg`, `wav`, `flac` are supported. 
+    * Currently `mp3`, `m4a`, `aif`, `aiff`, `aifc`, `ogg`, `wav`, `flac` are supported. 
 * In your `.env` set the following:
-  * `LOCAL_PROVIDER_ABSOLUTE_PATH` to the absolute path of your music folder which should be arranged `[Artist]/[Album]/[Song]`
-  * `LOCAL_PROVIDER_BASE_URL` to the base url or host you want to serve the files from
-  * `PROVIDER` to `local`
+    * `LOCAL_PROVIDER_ABSOLUTE_PATH` to the absolute path of your music folder which should be arranged `[Artist]/[Album]/[Song]`
+    * `LOCAL_PROVIDER_BASE_URL` to the base url or host you want to serve the files from
+    * `PROVIDER` to `local`
 
 ## `.env`
 The `.env` file currently supports the following variables:
@@ -36,6 +36,8 @@ The `.env` file currently supports the following variables:
 * Optimize performance with pre-loading
 * Enrich UI with metadata -- album covers, artist photos, etc.
 * Implement refresh cache button in UI
+* Add more data providers (DropBox, etc)
+    * If you'd like to contribute to the project, this is the best way to do it
 
 ## Reloading the music file cache
 The list of music files from s3 gets cached for speed. If you need to refresh the cache and don't wish to restart the application, send a `PUT` to `http://localhost:3000/cache` 
