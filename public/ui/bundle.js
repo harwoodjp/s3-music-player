@@ -22457,7 +22457,8 @@ var Hello = function (_Component) {
 					null,
 					"Hello, ",
 					this.props.name,
-					"."
+					". Provider: ",
+					Gl.ActiveDataSource.Provider
 				)
 			);
 		}

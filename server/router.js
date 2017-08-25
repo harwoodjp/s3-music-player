@@ -1,10 +1,26 @@
+const getDataFromDataSource = require("../logic/getDataFromDataSource")
+
 module.exports = app => {
 
-	app.get('/', (req, res) => {
-		res.render("index", {
-			foo: "bar",
-			bar: () => { return "foo" }
+    getDataFromDataSource().then(function() {
+
+		app.get('/', (req, res) => {
+
+	    	if (activeDataSource === undefined) {
+				res.render("index", { 
+					activeDataSource: "",
+					error: "Couldn't establish connection to data source."
+				})
+	    	} else {
+				res.render("index", {
+					activeDataSource
+				})
+	    	}
+
 		})
-	})
+
+
+    })
+
 
 }

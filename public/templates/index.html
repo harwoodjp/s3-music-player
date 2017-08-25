@@ -5,9 +5,14 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">	
 </head>
 <body>
-	<%= foo %>
-	<%= bar() %>
 	<div id="player"></div>
+	<script>
+		const Gl = {
+			ActiveDataSource: {
+				Provider: `<%= activeDataSource.provider || error %>`
+			}
+		}
+	</script>
 	<script src="/ui/bundle.js"></script>
 </body>
 </html>

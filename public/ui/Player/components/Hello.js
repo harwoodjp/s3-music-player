@@ -9,7 +9,7 @@ class Hello extends Component {
 	render() {
 		return (
 			<Wrapper>
-				<span>Hello, { this.props.name }.</span>
+				<span>Hello, { this.props.name }. Provider: { Gl.ActiveDataSource.Provider }</span>
 			</Wrapper>
 		)
 	}
