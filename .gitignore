@@ -1,3 +1,8 @@
 node_modules
 .env
-userDataSources.json
+userDataSources.json.DS_Store
+contents_debug.json
+local/**
+paths_debug.json
+*_debug.json
+.DS_Store
