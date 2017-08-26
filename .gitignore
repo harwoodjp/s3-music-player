@@ -6,3 +6,4 @@ local/**
 paths_debug.json
 *_debug.json
 .DS_Store
+.vscode
