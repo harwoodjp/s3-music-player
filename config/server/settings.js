@@ -7,10 +7,12 @@ module.exports = app => {
 	require('dotenv').config()
 
 	/* set public/static path  */
-	app.use(express.static(path.join(__dirname).replace("server", "public")))
+	let clientFolder = path.join(__dirname).replace("config/server", "app/client");
+	app.use(express.static(clientFolder))
 
 	/* set view/template path */
-	app.set('views', `${path.join(__dirname).replace("server", "public")}/templates`)
+	let viewsFolder = path.join(__dirname).replace("config/server", "app/views");
+	app.set('views', viewsFolder)
 
 	/* set template engine */
 	require('lodash-express')(app, 'html'); 

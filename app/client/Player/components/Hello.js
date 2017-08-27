@@ -9,7 +9,8 @@ class Hello extends Component {
 	render() {
 		return (
 			<Wrapper>
-				<span>Hello, { this.props.name }. Provider: { Gl.ActiveDataSource.Provider }</span>
+				<p>Bucket: { glbl.config.bucket }</p>
+				<p>Prefix: { glbl.config.prefix }</p>
 			</Wrapper>
 		)
 	}

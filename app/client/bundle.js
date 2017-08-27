@@ -10294,7 +10294,7 @@ var _Hello2 = _interopRequireDefault(_Hello);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_Hello2.default, { name: 'Justin' }), document.getElementById("player"));
+_reactDom2.default.render(_react2.default.createElement(_Hello2.default, null), document.getElementById("player"));
 
 /***/ }),
 /* 85 */
@@ -22453,12 +22453,16 @@ var Hello = function (_Component) {
 				Wrapper,
 				null,
 				_react2.default.createElement(
-					"span",
+					"p",
 					null,
-					"Hello, ",
-					this.props.name,
-					". Provider: ",
-					Gl.ActiveDataSource.Provider
+					"Bucket: ",
+					glbl.config.bucket
+				),
+				_react2.default.createElement(
+					"p",
+					null,
+					"Prefix: ",
+					glbl.config.prefix
 				)
 			);
 		}

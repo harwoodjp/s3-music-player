@@ -6,3 +6,11 @@
 * UI will consist of (a) React application(s)
 	* Client-side routing will allow us to do more without rendering new pages 
 	* Relocating UI logic to components will tidy the code base significantly 
+
+
+## Resources
+
+* https://gist.github.com/lancejpollard/1398757
+	* Discussion of Node project folder structures
+* https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes
+	* Express MVC overview

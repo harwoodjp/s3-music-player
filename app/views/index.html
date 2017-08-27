@@ -7,12 +7,14 @@
 <body>
 	<div id="player"></div>
 	<script>
-		const Gl = {
-			ActiveDataSource: {
-				Provider: `<%= activeDataSource.provider || error %>`
+		const glbl = {
+			config: {
+				bucket: `<%= bucket %>`,
+				prefix: `<%= prefix %>`,
 			}
 		}
+		console.log(glbl)
 	</script>
-	<script src="/ui/bundle.js"></script>
+	<script src="/bundle.js"></script>
 </body>
 </html>
